@@ -643,9 +643,9 @@ The meaning of the fields is the following.
 
 * **Pver**: 2 bit DeltaGram version number (see DeltaGram specification for usage).
 * **Ptype**: 2 bit packet type.
-    - 0 Datapacket.
-    - 1 Reverse Control (Delta-tAck).
-    - 2 DirectControl(Delta-tRendezvous).
+    - 0 Data packet.
+    - 1 Reverse Control (Delta-t Ack).
+    - 2 Direct Control (Delta-t Rendezvous).
     - 3 Nak.
 * **Presl**: 3 bits reserved.
 * **Pdn**: 1 bit, do not Nak if undeliverable flag.
@@ -914,7 +914,7 @@ Delta-t tests each packet received for acceptability. The rules for packet accep
 For reference in the sections below the meaning of the first letter of variable names is the following:
 
  - A - association variable.
- - P - field of a £acket Record, defined in Section 5.
+ - P - field of a Packet Record, defined in Section 5.
  - R - field of a Connection Record, primarily affecting receiving, defined in the next section.
  - S - field of a Connection Record, primarily affecting sending, defined in the next section.
  - s - local send variable.
@@ -1162,15 +1162,17 @@ The Delta-t procedures reside in the following declaration environment.
 ```
 const
     Data = 0;
-    Ack=1;
-    Dcntr: = 2 {Rendezvous};
-    Nak: = 3;
+    Ack = 1;
+    Dcntr := 2 {Rendezvous};
+    Nak := 3;
 type
     SN = 0..2**32-1;
     PKT = record {Pascal record of the packet structure defined in Section 5};
     Address = array [0..63] of Bit;
     CR = {Connection Record} record {defined above};
-    AR = {association} record destAddr, originAddr:Address end;
+    AR = {association} record 
+        destAddr, originAddr:Address 
+    end;
     dateTime = integer;
     CRpointer = ^CR;
     PKTpointer = ^PKT;
